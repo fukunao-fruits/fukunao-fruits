@@ -23,13 +23,13 @@
     <section class="social"><div class="wrap social-row"><div><div class="eyebrow">FOLLOW US</div><h2>旬の便りを、日々。</h2></div><div class="social-links"><a href="https://www.instagram.com/fukunao_fruits/" target="_blank" rel="noopener">Instagram</a><a href="https://x.com/FukunaoFruits" target="_blank" rel="noopener">X</a><a href="https://www.threads.com/@fukunao_fruits" target="_blank" rel="noopener">Threads</a><a href="https://www.youtube.com/@fukunaofruits" target="_blank" rel="noopener">YouTube</a><a href="https://www.tiktok.com/@fukunaofruits" target="_blank" rel="noopener">TikTok</a></div></div></section>
   </main>
   <footer class="footer"><div class="wrap footer-row"><img src="assets/logo.png" alt="福直フルーツ"><small>© 福直フルーツ　fukunaofruits.com</small></div><button class="hidden-cat" type="button" aria-label="隠れ猫の動画を見る"><img src="assets/hidden-cat.png" alt=""></button></footer>
-  <dialog class="cat-video" aria-label="隠れ猫の動画"><button class="cat-video-close" type="button" aria-label="動画を閉じる">×</button><video controls playsinline preload="metadata"><source src="assets/hidden-cat-video.mp4" type="video/mp4">お使いのブラウザでは動画を再生できません。</video></dialog>
+  <dialog class="cat-video" aria-label="隠れ猫の動画"><button class="cat-video-close" type="button" aria-label="動画を閉じる">×</button><video controls playsinline preload="metadata"><source src="assets/hidden-cat-video-iphone.mp4" type="video/mp4">お使いのブラウザでは動画を再生できません。</video></dialog>
   <script>
     const catButton = document.querySelector('.hidden-cat');
     const catVideoDialog = document.querySelector('.cat-video');
     const catVideo = catVideoDialog.querySelector('video');
     const closeCatVideo = () => { catVideo.pause(); catVideoDialog.close(); };
-    catButton.addEventListener('click', () => { catVideoDialog.showModal(); catVideo.play().catch(() => {}); });
+    catButton.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'instant' }); catVideoDialog.showModal(); catVideo.play().catch(() => {}); });
     catVideoDialog.querySelector('.cat-video-close').addEventListener('click', closeCatVideo);
     catVideoDialog.addEventListener('click', event => { if (event.target === catVideoDialog) closeCatVideo(); });
   </script>
