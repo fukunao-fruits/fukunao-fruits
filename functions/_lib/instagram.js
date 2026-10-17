@@ -9,13 +9,14 @@ function endpoint(path, env, extra = {}) {
 }
 
 function presentMedia(media) {
-  const imageUrl = media.media_type === 'VIDEO' ? media.thumbnail_url : media.media_url;
+  const videoUrl = media.thumbnail_url ? media.media_url : '';
+  const imageUrl = media.thumbnail_url || media.media_url;
   if (!imageUrl || !media.permalink) throw new Error('Instagram投稿の画像情報を取得できませんでした。');
   return {
     id: media.id,
     caption: media.caption || '',
     image_url: imageUrl,
-    video_url: media.media_type === 'VIDEO' ? media.media_url : '',
+    video_url: videoUrl,
     permalink: media.permalink,
     media_type: media.media_type,
     timestamp: media.timestamp || ''
