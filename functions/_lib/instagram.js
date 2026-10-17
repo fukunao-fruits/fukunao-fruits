@@ -15,6 +15,7 @@ function presentMedia(media) {
     id: media.id,
     caption: media.caption || '',
     image_url: imageUrl,
+    video_url: media.media_type === 'VIDEO' ? media.media_url : '',
     permalink: media.permalink,
     media_type: media.media_type,
     timestamp: media.timestamp || ''
