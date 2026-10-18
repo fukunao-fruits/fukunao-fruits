@@ -30,7 +30,7 @@ async function instagramFetch(url) {
 }
 
 export async function latestPosts(env) {
-  const data = await instagramFetch(endpoint(`${env.INSTAGRAM_USER_ID}/media`, env, { limit: '3' }));
+  const data = await instagramFetch(endpoint(`${env.INSTAGRAM_USER_ID}/media`, env, { limit: '10' }));
   return (data.data || []).map(presentMedia);
 }
 
