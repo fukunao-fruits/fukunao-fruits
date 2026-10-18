@@ -14,6 +14,19 @@ function defaultClosedDates(month) {
   return dates;
 }
 
+function isDateInMonth(date, month) {
+  return new RegExp(`^${month}-\\d{2}$`).test(date || '');
+}
+
+function validHoursByDate(value, month) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([date, hours]) => isDateInMonth(date, month) && typeof hours === 'string' && hours.trim() && hours.trim().length <= 30)
+      .map(([date, hours]) => [date, hours.trim()]),
+  );
+}
+
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const currentMonth = new Date().toISOString().slice(0, 7);
@@ -23,8 +36,9 @@ export async function onRequestGet(context) {
   try {
     const saved = await context.env.INSTAGRAM_SELECTION.get(`business-calendar:${month}`, 'json');
     const closedDates = Array.isArray(saved?.closedDates) ? saved.closedDates : fallback;
-    return Response.json({ month, closedDates }, { headers: { 'Cache-Control': 'public, max-age=300' } });
+    const hoursByDate = validHoursByDate(saved?.hoursByDate, month);
+    return Response.json({ month, closedDates, hoursByDate }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
-    return Response.json({ month, closedDates: fallback }, { headers: { 'Cache-Control': 'public, max-age=300' } });
+    return Response.json({ month, closedDates: fallback, hoursByDate: {} }, { headers: { 'Cache-Control': 'no-store' } });
   }
 }
