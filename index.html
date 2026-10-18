@@ -16,6 +16,7 @@
     @media(max-width:720px){.nav-links{display:flex}}
     @media(min-width:721px) and (max-width:900px){.menu-toggle{display:flex}.nav-links{display:flex;position:absolute;right:28px;top:calc(100% + 12px);width:280px;padding:15px 18px;background:rgba(41,32,30,.97);border:1px solid rgba(255,255,255,.23);flex-direction:column;gap:0;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .2s ease,transform .2s ease,visibility .2s ease}.nav-links.is-open{opacity:1;visibility:visible;transform:translateY(0)}.nav-links a{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.2)}.nav-links a:last-child{border-bottom:0}.menu-toggle.is-open span:nth-child(1){transform:translateY(5px) rotate(45deg)}.menu-toggle.is-open span:nth-child(2){opacity:0}.menu-toggle.is-open span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}}
     .nav{position:relative}@media(max-width:900px){.nav-links{right:0}}
+    .header{position:fixed;top:0;left:0;z-index:20;transition:background .2s ease,box-shadow .2s ease}.header.is-scrolled{background:rgba(41,32,30,.97);box-shadow:0 2px 18px rgba(0,0,0,.2)}section[id]{scroll-margin-top:86px}
   </style>
 </head>
 <body>
@@ -35,6 +36,11 @@
   <footer class="footer"><div class="wrap footer-row"><img src="assets/logo.png" alt="福直フルーツ"><small>© 福直フルーツ　fukunaofruits.com</small></div><button class="hidden-cat" type="button" aria-label="隠れ猫の動画を見る"><img src="assets/hidden-cat.png" alt=""></button></footer>
   <dialog class="cat-video" aria-label="隠れ猫の動画"><button class="cat-video-close" type="button" aria-label="動画を閉じる">×</button><video controls playsinline preload="metadata"><source src="assets/hidden-cat-video-iphone.mp4" type="video/mp4">お使いのブラウザでは動画を再生できません。</video></dialog>
   <script>
+    const header = document.querySelector('.header');
+    const updateHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+
     const menuToggle = document.querySelector('.menu-toggle');
     const siteMenu = document.querySelector('#site-menu');
     const setMenu = open => {
