@@ -37,7 +37,14 @@
       if (current !== generation || member.authenticated !== true ||
           typeof member.name !== 'string' || !member.name.trim() || member.name.length > 80) return;
       for (const root of roots) {
-        root.replaceChildren(link('/checkout/account', member.name.trim() + '様マイページ'));
+        const profile = link('/checkout/account', member.name.trim() + '様マイページ');
+        if (root.dataset.accountLayout === 'compact') {
+          const name = document.createElement('span'), label = document.createElement('span');
+          name.className = 'top-account-name'; name.textContent = member.name.trim();
+          label.className = 'top-account-label'; label.textContent = '様マイページ';
+          profile.replaceChildren(name, label);
+        }
+        root.replaceChildren(profile);
         root.dataset.accountState = 'member';
       }
     } catch {
