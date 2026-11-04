@@ -1,5 +1,6 @@
 import {publishedStory} from './published-story.js';
 import {topAccount} from './top-account.js';
+import {journalTheme} from './journal-theme.js';
 // Fixed public upstream. Never forwards cookies, authorization or an arbitrary URL.
 export async function proxy(request){
  if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405,headers:{Allow:'GET, HEAD','Cache-Control':'no-store'}});
@@ -10,6 +11,6 @@ export async function proxy(request){
  for(const key of ['utm_source','utm_medium','utm_campaign'])u.searchParams.delete(key);
  const upstream=new URL(u.pathname+u.search,'https://fukunao-free-lp-publisher.ttta-fuku.workers.dev');
  const headers=new Headers();if(request.headers.has('If-None-Match'))headers.set('If-None-Match',request.headers.get('If-None-Match'));
- try{const response=await fetch(upstream,{method:request.method,headers,redirect:'manual',cache:'no-store'});const h=new Headers(response.headers);h.delete('Set-Cookie');return await topAccount(request,await publishedStory(request,new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers:h})));}
+ try{const response=await fetch(upstream,{method:request.method,headers,redirect:'manual',cache:'no-store'});const h=new Headers(response.headers);h.delete('Set-Cookie');return await journalTheme(request,await topAccount(request,await publishedStory(request,new Response(request.method==='HEAD'?null:response.body,{status:response.status,headers:h}))));}
  catch{return new Response('ただいま記事を表示できません。時間をおいてお試しください。',{status:503,headers:{'Cache-Control':'no-store','Content-Type':'text/plain; charset=utf-8'}});}
 }
