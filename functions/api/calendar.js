@@ -2,6 +2,15 @@ function isValidMonth(value) {
   return /^\d{4}-(0[1-9]|1[0-2])$/.test(value || '');
 }
 
+function shopFrom(value) {
+  return value === 'onomichi-kajitsu' ? 'onomichi-kajitsu' : 'fukunao';
+}
+
+function calendarKey(shop, month) {
+  // 福直フルーツは既存の保存先をそのまま読み、登録済みの予定を保ちます。
+  return shop === 'onomichi-kajitsu' ? `business-calendar:onomichi-kajitsu:${month}` : `business-calendar:${month}`;
+}
+
 function defaultClosedDates(month) {
   const [year, monthNumber] = month.split('-').map(Number);
   const lastDay = new Date(Date.UTC(year, monthNumber, 0)).getUTCDate();
@@ -31,14 +40,15 @@ export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const currentMonth = new Date().toISOString().slice(0, 7);
   const month = isValidMonth(url.searchParams.get('month')) ? url.searchParams.get('month') : currentMonth;
-  const fallback = defaultClosedDates(month);
+  const shop = shopFrom(url.searchParams.get('shop'));
+  const fallback = shop === 'fukunao' ? defaultClosedDates(month) : [];
 
   try {
-    const saved = await context.env.INSTAGRAM_SELECTION.get(`business-calendar:${month}`, 'json');
+    const saved = await context.env.INSTAGRAM_SELECTION.get(calendarKey(shop, month), 'json');
     const closedDates = Array.isArray(saved?.closedDates) ? saved.closedDates : fallback;
     const hoursByDate = validHoursByDate(saved?.hoursByDate, month);
-    return Response.json({ month, closedDates, hoursByDate }, { headers: { 'Cache-Control': 'no-store' } });
+    return Response.json({ shop, month, closedDates, hoursByDate }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
-    return Response.json({ month, closedDates: fallback, hoursByDate: {} }, { headers: { 'Cache-Control': 'no-store' } });
+    return Response.json({ shop, month, closedDates: fallback, hoursByDate: {} }, { headers: { 'Cache-Control': 'no-store' } });
   }
 }
