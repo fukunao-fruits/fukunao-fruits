@@ -15,12 +15,10 @@ export async function publishedStory(request,response){
  if(request.method!=='GET'||new URL(request.url).pathname!=='/meguri/'||response.status!==200||!response.headers.get('Content-Type')?.includes('text/html'))return response;
  const body=await response.text(),headers=new Headers(response.headers);
  headers.delete('Content-Length');headers.delete('ETag');headers.set('Cache-Control','no-store');
- let visible=false;
- if(body.includes(marker))try{
-  const legacy=await fetch('https://fukunao-free-lp-publisher.ttta-fuku.workers.dev'+path,
-   {method:'GET',redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(8000)});
-  visible=legacy.status===200&&!!legacy.headers.get('Content-Type')?.includes('text/html')&&(await legacy.text()).includes(title);
- }catch{/* A stopped or unavailable publication must not be advertised. */}
- const page=visible?body.replace('</head>',landingStyle+'</head>').replace(marker,marker+landing+card):body;
+ // The article link itself is already public.  Keep the journal's opening
+ // screen stable even if a separate availability check is temporarily slow.
+ const page=body.includes(marker)
+  ?body.replace('</head>',landingStyle+'</head>').replace(marker,marker+landing+card)
+  :body;
  return new Response(page,{status:response.status,headers});
 }
