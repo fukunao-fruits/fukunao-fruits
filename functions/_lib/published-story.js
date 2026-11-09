@@ -2,7 +2,6 @@
 // converting its body, publishing drafts, or changing its order controls.
 const path='/lp/p-185b1ab2aa6142288c53cd6eaf3ed286/';
 const title='この間のみかん、おいしかった。｜佐木島産 日南みかん';
-const marker='<main id="main" class="wrap">';
 const landing=`<section class="meguri-welcome" aria-labelledby="meguri-welcome-title"><div class="meguri-welcome__copy"><p class="meguri-welcome__eyebrow">FUKUNAO FRUIT JOURNAL</p><h1 id="meguri-welcome-title">福直くだもの巡り</h1><p class="meguri-welcome__lead">果物を知る。<br>好きになる。<br>取り寄せる。</p><p class="meguri-welcome__text">旬の果物を、もっと身近に。<br>果物専門店の目利きで、味わいと選び方をご案内します。</p></div><nav class="meguri-welcome__links" aria-label="福直くだもの巡りの入口"><a href="/meguri/articles/">記事を読む <span>→</span></a><a href="/meguri/#categories">果物から探す <span>→</span></a><a href="/meguri/shop/">商品のご案内 <span>→</span></a></nav></section>`;
 const landingStyle=`<style data-meguri-welcome>
 .meguri-content>main.wrap>.eyebrow:first-child{display:none}
@@ -19,8 +18,9 @@ export async function publishedStory(request,response){
  headers.delete('Content-Length');headers.delete('ETag');headers.set('Cache-Control','no-store');
  // The article link itself is already public.  Keep the journal's opening
  // screen stable even if a separate availability check is temporarily slow.
- const page=body.includes(marker)
-  ?body.replace('</head>',landingStyle+'</head>').replace(marker,marker+landing+card)
-  :body;
+ const mainOpen=/<main\b[^>]*>/i;
+ const page=mainOpen.test(body)
+  ?body.replace('</head>',landingStyle+'</head>').replace(mainOpen,open=>open+landing+card)
+  :fallbackPage;
  return new Response(page,{status:response.status,headers});
 }
