@@ -1,4 +1,4 @@
-// The journal has one reading entrance. Search belongs to the article index;
+// Reading and shopping have distinct entrances. Search belongs to the article index;
 // existing article, category and product URLs remain valid.
 const search = `<section class="journal-article-search" aria-label="記事を検索"><p>味わいや選び方、生産者のこだわりを記事でご紹介します。</p><form class="search-form" method="get" action="/meguri/search/" role="search"><label for="journal-article-query">記事を検索</label><div><input id="journal-article-query" name="q" type="search" maxlength="80" placeholder="例：紅ほっぺ、みかん、広島"><button type="submit">検索</button></div></form></section>`;
 const style = `<style data-journal-reading-navigation>
@@ -19,9 +19,12 @@ export function journalNavigation(request,response){
  const remove={element(e){e.remove();}};
  const rewrite=new HTMLRewriter()
   .on('header.journal-header nav a[href="/meguri/#categories"]',remove)
-  .on('header.journal-header nav a[href="/meguri/shop/"]',remove)
+  .on('header.journal-header nav a[href="/meguri/shop/"]',{element(e){e.setInnerContent('お買い物');}})
   .on('header.journal-header nav a[href="/meguri/search/"]',remove)
   .on('head',{element(e){e.append(style,{html:true});}});
+ if(path==='/meguri/shop/')rewrite
+  .on('title',{element(e){e.setInnerContent('お買い物｜福直くだもの巡り');}})
+  .on('main .intro h1',{element(e){e.setInnerContent('お買い物');}});
  if(home)rewrite
   .on('main',{element(e){e.setAttribute('data-journal-home','');}})
   .on('main > h1.eyebrow',remove)
