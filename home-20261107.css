@@ -36,7 +36,7 @@ summary::-webkit-details-marker { display: none; }
 .nav-group { position: relative; }
 .nav-group summary::after { content: "＋"; margin-left: 6px; color: var(--gold); }
 .nav-group[open] summary::after { content: "−"; }
-.nav-submenu { position: absolute; top: 100%; left: 0; min-width: 310px; padding: 8px; background: #fffdf8; border: 1px solid var(--line); box-shadow: 0 12px 24px #193f3518; }
+.nav-submenu { position: absolute; top: 100%; left: 0; min-width: 340px; padding: 8px; background: #fffdf8; border: 1px solid var(--line); box-shadow: 0 12px 24px #193f3518; }
 .nav-submenu a { display: block; padding: 12px; white-space: nowrap; }
 .nav-submenu a:hover, .desktop-nav summary:hover { background: var(--cream); }
 .button-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
@@ -262,6 +262,7 @@ summary::-webkit-details-marker { display: none; }
 /* Describe the action and destination together in both navigation menus. */
 .nav-submenu .sales-option, .mobile-nav-group .sales-option { display: flex; flex-direction: column; gap: 3px; padding: 14px 12px; font-size: 16px; line-height: 1.6; }
 .sales-option > span { font-weight: 600; color: var(--ink); }
+.sales-option .keep-together { display: inline-block; white-space: nowrap; }
 .sales-option small { font-size: 14px; color: #59665c; white-space: normal; }
 .sales-secondary { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
 .sales-secondary a { min-height: 44px; font-size: 14px; }
