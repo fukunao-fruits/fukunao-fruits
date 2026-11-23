@@ -9,7 +9,7 @@ const style = `<style data-journal-reading-navigation>
 main[data-journal-home] .split{display:block}main[data-journal-home] .card .label,main[data-journal-home] .hero .label,main[data-journal-list] .card .label{display:none}
 main[data-journal-list] .search-form input,main[data-journal-list] .search-form button{font-size:16px;min-height:48px}
 main[data-journal-home] .summary,main[data-journal-list] .summary{font-size:16px}
-@media(max-width:600px){.journal-article-search{margin-bottom:26px}.journal-article-search button{padding-inline:16px}main[data-journal-list] .card h2{font-size:16px}main[data-journal-list] .meta{font-size:14px}}
+@media(max-width:600px){.journal-article-search{margin-bottom:26px}.journal-article-search button{padding-inline:16px}main[data-journal-list] .card h2{font-size:20px}main[data-journal-list] .meta{font-size:14px}}
 </style>`;
 
 export function journalNavigation(request,response){
@@ -34,7 +34,7 @@ export function journalNavigation(request,response){
   .on('main #search h2',{element(e){e.setInnerContent('記事を検索');}});
  if(listing)rewrite
   .on('main',{element(e){e.setAttribute('data-journal-list','');}});
- if(articleIndex)rewrite.on('main .intro',{element(e){e.after(search,{html:true});}});
+ if(articleIndex)rewrite.on('main .intro:not([data-reading-search])',{element(e){e.after(search,{html:true});}});
  const headers=new Headers(response.headers);
  headers.delete('Content-Length');headers.delete('ETag');headers.set('Cache-Control','no-store');
  return rewrite.transform(new Response(response.body,{status:response.status,headers}));
