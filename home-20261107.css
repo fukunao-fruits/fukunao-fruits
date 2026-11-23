@@ -36,7 +36,7 @@ summary::-webkit-details-marker { display: none; }
 .nav-group { position: relative; }
 .nav-group summary::after { content: "＋"; margin-left: 6px; color: var(--gold); }
 .nav-group[open] summary::after { content: "−"; }
-.nav-submenu { position: absolute; top: 100%; left: 0; min-width: 220px; padding: 6px; background: #fffdf8; border: 1px solid var(--line); box-shadow: 0 12px 24px #193f3518; }
+.nav-submenu { position: absolute; top: 100%; left: 0; min-width: 310px; padding: 8px; background: #fffdf8; border: 1px solid var(--line); box-shadow: 0 12px 24px #193f3518; }
 .nav-submenu a { display: block; padding: 12px; white-space: nowrap; }
 .nav-submenu a:hover, .desktop-nav summary:hover { background: var(--cream); }
 .button-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
@@ -102,6 +102,17 @@ summary::-webkit-details-marker { display: none; }
 .shop-details p { font-size: 13px; line-height: 1.8; }
 .closing { margin-top: 26px; font: 17px/1.9 var(--serif); color: #fffdf8; }
 .business { background: var(--paper); }
+.phone-consultation { background: var(--cream); border-top: 1px solid var(--line); }
+.phone-consultation__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.phone-consultation__shop { margin: 0; color: var(--leaf); font-size: 16px; }
+.phone-consultation h2 { margin: 8px 0 16px; }
+.phone-consultation p { font-size: 16px; }
+.phone-consultation__call { display: flex; flex-direction: column; align-items: center; padding: 16px 24px; background: var(--ink); color: #fff; }
+.phone-consultation__call:hover { background: #315746; }
+.phone-consultation__call span { font-size: 16px; }
+.phone-consultation__call strong { font-size: clamp(24px, 3vw, 32px); letter-spacing: .04em; white-space: nowrap; }
+.phone-consultation__contact > p { margin: 12px 0 0; }
+.phone-consultation__hours { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; font-size: 14px; }
 .business-grid { align-items: start; }
 .point { border-top: 1px solid var(--line); padding: 19px 0; }
 .point:first-child { padding-top: 20px; }
@@ -199,7 +210,7 @@ summary::-webkit-details-marker { display: none; }
   .hero-actions { display: block; }
   .hero-actions .primary { width: 100%; justify-content: space-between; gap: 16px; }
   .hero .scroll { margin-top: 12px; }
-  .intro-grid, .business-grid, .shop-feature__intro, .store-grid, .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .intro-grid, .business-grid, .shop-feature__intro, .store-grid, .footer-grid, .phone-consultation__grid { grid-template-columns: 1fr; gap: 28px; }
   .featured-fruit__heading h3 { font-size: 23px; }
   .featured-fruit__heading p { font-size: 10px; }
   .intro-grid > .featured-fruit { order: 1; }
@@ -247,3 +258,17 @@ summary::-webkit-details-marker { display: none; }
 .desktop-nav{margin-left:auto}.nav-buy .button-caption{font-size:14px}.nav-buy .button-title{font-size:16px}
 @media(max-width:1024px){.home-cart{margin-left:auto}.mobile-menu nav>a{font-size:16px}}
 @media(max-width:600px){header .bar{gap:8px}header .brand{font-size:18px;letter-spacing:.05em}.home-cart{padding-inline:8px}}
+
+/* Describe the action and destination together in both navigation menus. */
+.nav-submenu .sales-option, .mobile-nav-group .sales-option { display: flex; flex-direction: column; gap: 3px; padding: 14px 12px; font-size: 16px; line-height: 1.6; }
+.sales-option > span { font-weight: 600; color: var(--ink); }
+.sales-option small { font-size: 14px; color: #59665c; white-space: normal; }
+.sales-secondary { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
+.sales-secondary a { min-height: 44px; font-size: 14px; }
+.mobile-nav-group .sales-option:hover, .mobile-nav-group .sales-secondary a:hover { background: var(--cream); }
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .brand small { display: none; }
+  .bar { gap: 12px; }
+  .desktop-nav > a, .desktop-nav summary { padding-inline: 8px; }
+  .desktop-nav .nav-buy { padding-inline: 14px; gap: 10px; margin-left: 6px; }
+}

@@ -70,8 +70,20 @@
 const menu = document.querySelector('.mobile-menu');
 const menuSummary = menu?.querySelector(':scope > summary');
 menu?.addEventListener('toggle', () => menuSummary?.setAttribute('aria-expanded', String(menu.open)));
-menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
-document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu) menu.open = false; });
+const navigationMenus = document.querySelectorAll('.nav-group, .mobile-menu, .mobile-nav-group');
+function closeNavigationMenus() {
+  navigationMenus.forEach(details => { details.open = false; });
+}
+document.querySelectorAll('header a').forEach(link => link.addEventListener('click', closeNavigationMenus));
+document.addEventListener('click', event => {
+  if (!event.target.closest('header')) closeNavigationMenus();
+});
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const parentMenu = document.activeElement?.closest('.mobile-menu, .nav-group');
+  closeNavigationMenus();
+  parentMenu?.querySelector(':scope > summary')?.focus();
+});
 
 // Business calendars use the existing store schedules, in Japan time.
 (() => {
