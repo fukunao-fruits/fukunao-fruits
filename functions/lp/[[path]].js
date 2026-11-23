@@ -1,3 +1,4 @@
+import {journalNavigation} from '../_lib/journal-navigation.js';
 // Public pages only. Publishing credentials never enter the public website.
 export async function onRequest(context) {
   const {request}=context;
@@ -8,7 +9,7 @@ export async function onRequest(context) {
     const response=await fetch(upstream,{method:request.method,redirect:'manual'});
     const headers=new Headers(response.headers);
     headers.set('Cache-Control','no-store');
-    return new Response(response.body,{status:response.status,headers});
+    return journalNavigation(request,new Response(response.body,{status:response.status,headers}));
   } catch {
     return new Response('ただいまページを表示できません。時間をおいてお試しください。',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
   }
